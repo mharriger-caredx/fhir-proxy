@@ -19,14 +19,20 @@ namespace FHIRProxy
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var nextresult = await FHIRClient.CallFHIRServer("metadata",requestBody,req.Method,log);
+            log.logInformation("Got reponse from server");
+            log.logInformation(nextresult);
 
             //Reverse proxy content string 
             nextresult = Utils.reverseProxyResponse(nextresult, req);
             //Replace SMARTonFHIR Proxy endpoints
             string aauth = req.Scheme + "://" + req.Host.Value + "/AadSmartOnFhirProxy/authorize";
             string atoken = req.Scheme + "://" + req.Host.Value + "/AadSmartOnFhirProxy/token";
+            log.logInformation("line 30");
             var md = nextresult.toJToken();
+            log.logInformation("line 32");
+            log.logInformation(md);
             var rest = md["rest"];
+            log.logInformation("line 35");
             if (!rest.IsNullOrEmpty())
             {
                 JArray r = (JArray)rest;

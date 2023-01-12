@@ -22,7 +22,11 @@ namespace FHIRProxy
         private static async Task<string> GetFHIRToken(ILogger log)
         {
             string tok = null;
-            if (_tokendict.TryGetValue("fhirtoken", out tok) && !ADUtils.isTokenExpired(tok)) return tok;
+            if (_tokendict.TryGetValue("fhirtoken", out tok) && !ADUtils.isTokenExpired(tok)) {
+                log.LogInformation("Token is not expired");
+                log.LogInformation(tok);
+                return tok;
+            }
             //renew
             string resource = System.Environment.GetEnvironmentVariable("FS-RESOURCE");
             string tenant = System.Environment.GetEnvironmentVariable("FS-TENANT-NAME");

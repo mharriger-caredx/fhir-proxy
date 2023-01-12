@@ -20,7 +20,7 @@ namespace FHIRProxy
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var nextresult = await FHIRClient.CallFHIRServer("metadata",requestBody,req.Method,log);
             log.LogInformation("Got reponse from server");
-            log.LogInformation(nextresult);
+            log.LogInformation(nextresult.StatusCode.ToString());
 
             //Reverse proxy content string 
             nextresult = Utils.reverseProxyResponse(nextresult, req);
@@ -30,7 +30,7 @@ namespace FHIRProxy
             log.LogInformation("line 30");
             var md = nextresult.toJToken();
             log.LogInformation("line 32");
-            log.LogInformation(md);
+            log.LogInformation(md.ToString());
             var rest = md["rest"];
             log.LogInformation("line 35");
             if (!rest.IsNullOrEmpty())

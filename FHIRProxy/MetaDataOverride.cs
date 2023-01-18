@@ -21,6 +21,7 @@ namespace FHIRProxy
             var nextresult = await FHIRClient.CallFHIRServer("metadata",requestBody,req.Method,log);
             log.LogInformation("Got reponse from server");
             log.LogInformation(nextresult.StatusCode.ToString());
+            log.LogInformation(nextresult.Content.ToString());
 
             //Reverse proxy content string 
             nextresult = Utils.reverseProxyResponse(nextresult, req);

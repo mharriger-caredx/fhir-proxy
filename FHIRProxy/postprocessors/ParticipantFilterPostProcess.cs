@@ -203,7 +203,7 @@ namespace FHIRProxy.postprocessors
                         return true;
                     }
                 }
-                else if (rid.StartsWith("Practitioner"))
+                else if (rid.StartsWith("Practitioner") || rid.StartsWith("Organization"))
                 {
                     if (patient["generalPractitioner"] != null)
                     {

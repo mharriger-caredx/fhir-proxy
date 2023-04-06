@@ -53,8 +53,13 @@ namespace FHIRProxy.postprocessors
             Dictionary<string, bool> porcache = new Dictionary<string,bool>();
             var table = Utils.getTable();
             //Load linked Resource Identifiers from linkentities table for each known role the user is in
+            int index = 0;
             foreach (string r in inroles)
             {
+                //Remove everything after the first '.'
+                index = r.IndexOf(".");
+                if (index >= 0)
+                    r = r.Substring(0, index);
                 if (fhirresourceroles.Any(r.Equals))
                 {
                     var entity = Utils.getLinkEntity(table, r, aadten + "-" + name);

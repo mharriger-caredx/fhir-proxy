@@ -62,11 +62,14 @@ namespace FHIRProxy.postprocessors
                 index = r.IndexOf(".");
                 if (index >= 0)
                     resourceType = r.Substring(0, index);
+                log.LogDebug(String.Format("Checking for {0} in FHIR Resource Roles", r));
                 if (fhirresourceroles.Any(r.Equals))
                 {
+                    log.LogDebug(String.Format("Checking for id {0} with type {1} in FHIR Resource Roles", name, resourceType));
                     var entity = Utils.getLinkEntity(table, resourceType, aadten + "-" + name);
                     if (entity != null)
                     {
+                        log.LogDebug(String.Format("Found linked FHIR resource {0}", resourceType + "/" + entity.LinkedResourceId));
                         resourceidentities.Add(resourceType + "/" + entity.LinkedResourceId);
                     }
                 }

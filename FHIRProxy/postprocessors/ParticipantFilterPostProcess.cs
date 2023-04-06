@@ -54,18 +54,20 @@ namespace FHIRProxy.postprocessors
             var table = Utils.getTable();
             //Load linked Resource Identifiers from linkentities table for each known role the user is in
             int index = 0;
+            String roleName = "";
             foreach (string r in inroles)
             {
                 //Remove everything after the first '.'
+                roleName = r;
                 index = r.IndexOf(".");
                 if (index >= 0)
-                    r = r.Substring(0, index);
-                if (fhirresourceroles.Any(r.Equals))
+                    roleName = r.Substring(0, index);
+                if (fhirresourceroles.Any(roleName.Equals))
                 {
-                    var entity = Utils.getLinkEntity(table, r, aadten + "-" + name);
+                    var entity = Utils.getLinkEntity(table, roleName, aadten + "-" + name);
                     if (entity != null)
                     {
-                        resourceidentities.Add(r + "/" + entity.LinkedResourceId);
+                        resourceidentities.Add(roleName + "/" + entity.LinkedResourceId);
                     }
                 }
             }

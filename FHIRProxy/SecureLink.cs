@@ -1,7 +1,7 @@
 /* 
 * 2020 Microsoft Corp
 * 
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS”
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ï¿½AS ISï¿½
 * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
 * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
 * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
@@ -36,7 +36,7 @@ namespace FHIRProxy
     {
         public static string _bearerToken;
         private static object _lock = new object();
-        private static string[] allowedresources = { "Patient", "Practitioner", "RelatedPerson" };
+        private static string[] allowedresources = { "Patient", "Practitioner", "RelatedPerson", "Organization" };
         private static string[] validcmds = { "find","link", "unlink", "list" };
         private static string htmltemplatehead = "<html><head><style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}tr:nth-child(even){background-color: #dddddd;}</style></head><body>";
         private static string htmltemplatefoot = "</body></html>";
@@ -64,7 +64,7 @@ namespace FHIRProxy
             //Are we linking the correct resource type
             if (string.IsNullOrEmpty(res) || !allowedresources.Any(res.Contains))
             {
-                return new BadRequestObjectResult("Resource must be Patient,Practitioner or RelatedPerson");
+                return new BadRequestObjectResult("Resource must be Patient,Practitioner, RelatedPerson or Organization");
             }
             
             ClaimsIdentity ci = (ClaimsIdentity)principal.Identity;

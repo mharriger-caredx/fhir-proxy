@@ -53,14 +53,24 @@ namespace FHIRProxy.postprocessors
             Dictionary<string, bool> porcache = new Dictionary<string,bool>();
             var table = Utils.getTable();
             //Load linked Resource Identifiers from linkentities table for each known role the user is in
+            int index = 0;
+            String resourceType = "";
             foreach (string r in inroles)
             {
+                //Remove everything after the first '.'
+                resourceType = r;
+                index = r.IndexOf(".");
+                if (index >= 0)
+                    resourceType = r.Substring(0, index);
+                log.LogInformation(String.Format("Checking for {0} in FHIR Resource Roles", r));
                 if (fhirresourceroles.Any(r.Equals))
                 {
-                    var entity = Utils.getLinkEntity(table, r, aadten + "-" + name);
+                    log.LogInformation(String.Format("Checking for id {0} with type {1} in FHIR Resource Roles", name, resourceType));
+                    var entity = Utils.getLinkEntity(table, resourceType, aadten + "-" + name);
                     if (entity != null)
                     {
-                        resourceidentities.Add(r + "/" + entity.LinkedResourceId);
+                        log.LogInformation(String.Format("Found linked FHIR resource {0}", resourceType + "/" + entity.LinkedResourceId));
+                        resourceidentities.Add(resourceType + "/" + entity.LinkedResourceId);
                     }
                 }
             }
@@ -203,7 +213,7 @@ namespace FHIRProxy.postprocessors
                         return true;
                     }
                 }
-                else if (rid.StartsWith("Practitioner"))
+                else if (rid.StartsWith("Practitioner") || rid.StartsWith("Organization"))
                 {
                     if (patient["generalPractitioner"] != null)
                     {

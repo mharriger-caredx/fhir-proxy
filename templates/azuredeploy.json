@@ -240,7 +240,7 @@
     "roleReader": "Reader",
     "roleWriter": "Writer",
     "rolePatient": "Patient",
-    "roleParticipant": "Practitioner,RelatedPerson",
+    "roleParticipant": "Practitioner,RelatedPerson,Organization.Reader",
     "roleGlobal": "DataScientist",
     "logAnalyticsWorkspaceName": "[format('laws-{0}', parameters('uniqueValue'))]",
     "deployLogAnalyticsWorkspace": true,
